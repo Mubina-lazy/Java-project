@@ -1,0 +1,76 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class MovieApp {
+
+    public static void main(String[] args) {
+        // Create the frame
+        JFrame frame = new JFrame("Movie Details");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 600);
+        frame.setLayout(new BorderLayout());
+
+        // Panel to hold movie details
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new GridLayout(5, 2, 10, 10));
+        detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Movie Name
+        JLabel nameLabel = new JLabel("Movie Name:");
+        JTextField nameField = new JTextField();
+        detailsPanel.add(nameLabel);
+        detailsPanel.add(nameField);
+
+        // Description
+        JLabel descLabel = new JLabel("Description:");
+        JTextArea descField = new JTextArea(3, 20);
+        descField.setLineWrap(true);
+        descField.setWrapStyleWord(true);
+        JScrollPane descScrollPane = new JScrollPane(descField);
+        detailsPanel.add(descLabel);
+        detailsPanel.add(descScrollPane);
+
+        // Price
+        JLabel priceLabel = new JLabel("Price:");
+        JTextField priceField = new JTextField();
+        detailsPanel.add(priceLabel);
+        detailsPanel.add(priceField);
+
+        // Duration
+        JLabel durationLabel = new JLabel("Duration:");
+        JTextField durationField = new JTextField();
+        detailsPanel.add(durationLabel);
+        detailsPanel.add(durationField);
+
+        // Movie Photo
+        JLabel photoLabel = new JLabel("Movie Photo:");
+        JButton uploadButton = new JButton("Upload Photo");
+        detailsPanel.add(photoLabel);
+        detailsPanel.add(uploadButton);
+
+        // Display Panel for the Movie Poster
+        JLabel photoDisplay = new JLabel("Photo will appear here", SwingConstants.CENTER);
+        photoDisplay.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        photoDisplay.setPreferredSize(new Dimension(200, 300));
+
+        // ActionListener for the upload button
+        uploadButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(frame);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                String imagePath = fileChooser.getSelectedFile().getAbsolutePath();
+                ImageIcon imageIcon = new ImageIcon(imagePath);
+                Image image = imageIcon.getImage().getScaledInstance(200, 300, Image.SCALE_SMOOTH);
+                photoDisplay.setIcon(new ImageIcon(image));
+                photoDisplay.setText("");
+            }
+        });
+
+        // Add components to the frame
+        frame.add(detailsPanel, BorderLayout.NORTH);
+        frame.add(photoDisplay, BorderLayout.CENTER);
+
+        // Make the frame visible
+        frame.setVisible(true);
+    }
+}
